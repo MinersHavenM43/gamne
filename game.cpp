@@ -1,4 +1,5 @@
 // Used for rendering and random numbers
+// Copyright (C) 2021 MinersHavenM43, see 'h.h' for details
 
 #include "h.h"
 using namespace std;
