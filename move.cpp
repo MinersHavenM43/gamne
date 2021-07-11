@@ -1,4 +1,5 @@
 // Deals with character movement
+// Copyright (C) 2021 MinersHavenM43, see 'h.h' for details
 #include "h.h"
 using namespace std;
 
