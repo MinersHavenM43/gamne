@@ -1,4 +1,5 @@
 // defines the variables in h.h, hopefully that will be the solution to the "multiple definitions of 'x'" thing
+// Copyright (C) 2021 MinersHavenM43, see 'h.h' for details
 #include "h.h"
 
 int seed = 10; // seed
