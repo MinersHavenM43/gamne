@@ -1,4 +1,5 @@
-// defines biome locations and thing like that
+// defines biome locations and things like that
+// Copyright (C) 2021 MinersHavenM43, see 'h.h' for details
 
 #include "h.h"
 using namespace std;
