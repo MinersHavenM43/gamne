@@ -7,4 +7,4 @@ To run it on Linux, you have to download the `gamne_linux` file, and run `cd [do
 TBA
 
 # Other
-Because I do not have any other OS's other than Linux (Ubuntu) and Windows, you will have to compile the gamne ~~or wait until my computer breaks and by chance get the default OS to be something other than Ubuntu or Windows~~.
+Because I do not have any other OS's other than Linux (Ubuntu) and Windows, you will have to compile the gamne in your OS ~~or wait until my computer breaks and by chance get the default OS to be something other than Ubuntu or Windows~~.
