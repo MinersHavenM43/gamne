@@ -21,18 +21,29 @@
 #include <iostream>
 #include <string>
 #include <cmath>
+#include <vector>
 
 extern int seed; // seed
 extern int prange; // player sight range
 
-struct cell { // will be used later, much later
+/* struct cell { // will be used later, much later
     short x, y;
-    char wall, biome;
+    content::Biome biome;
+    content::Wall wall;
+}; */
+
+struct coord { // coordinate (used for empty cells)
+    short x, y;
 };
 
+// no match for ‘operator==’ (operand types are ‘__gnu_cxx::__alloc_traits<std::allocator<coord> >::value_type {aka coord}’ and ‘coord’)
+bool operator == (const coord c1, const coord c2);
+
+// some values
 namespace PASSTYPE {
-    extern int pass;
     extern int nopass;
+    extern int pass;
+    extern int chop;
 }
 namespace TYPE {
     extern int glyph;
@@ -40,13 +51,28 @@ namespace TYPE {
     extern int pass;
 }
 
+// namespaces
 namespace content {
-    std::string biome(int x, int y, int type);
-    std::string wall(int x, int y, int type);
+    struct Biome {
+        int id;
+        std::string glyph, name;
+    };
+    struct Wall {
+        int id;
+        std::string glyph, name;
+        int pass;
+    };
+
+    bool isEmpty(coord c);
+    coord xy(int x, int y);
+    Biome biome(int x, int y);
+    Wall wall(int x, int y);
 }
 namespace game {
-    extern int player[2];
-    unsigned int grand(int x, int y, int k, int seed);
+    extern short player[2];
+    extern std::vector<coord> emptytiles;
+
+    int grand(short x, short y, int k, int seed);
     void make();
     void move();
 }
