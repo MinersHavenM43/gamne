@@ -6,7 +6,7 @@ using namespace std;
 // int a = 2; test variable
 int main() {
     std::cout <<
-    "Gamne by MinersHaven\n"
+    "Gamne v1.1 by MinersHaven\n"
     "Released under GNU GPL version 2, and thus does not come with any warranty. See COPYING for details"
     << endl;
     std::cout << "Press any key to start to start." << endl;
