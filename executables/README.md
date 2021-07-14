@@ -1,7 +1,7 @@
 Here you can find executables for the gamne.
 
 # Linux
-To run it on Linux, you have to download the `gamne_linux` file, and run `cd [download path]/.gamne_linux`, replacing `[download path]` with the download location of the file.
+To run it on Linux, you have to download the `gamne_linux` file, run `cd [download path]`, replacing `[download path]` with the download location of the file. Then, run `./gamne_linux`.
 
 # Windows
 TBA
