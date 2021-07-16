@@ -24,20 +24,23 @@
 #include <vector>
 
 extern int seed; // seed
-extern int prange; // player sight range
+// extern int prange; // player sight range
 
-/* struct cell { // will be used later, much later
+#define PRANGE 10 // player sight range
+#define BORDER 32700 // world border
+
+/* struct tile { // will be used later, much later
     short x, y;
     content::Biome biome;
     content::Wall wall;
 }; */
 
-struct coord { // coordinate (used for empty cells)
+struct tile { // coordinate (used for empty cells)
     short x, y;
 };
 
-// no match for ‘operator==’ (operand types are ‘__gnu_cxx::__alloc_traits<std::allocator<coord> >::value_type {aka coord}’ and ‘coord’)
-bool operator == (const coord c1, const coord c2);
+// no match for ‘operator==’ (operand types are ‘__gnu_cxx::__alloc_traits<std::allocator<tile> >::value_type {aka tile}’ and ‘tile’)
+bool operator == (const tile c1, const tile c2);
 
 // some values
 namespace PASSTYPE {
@@ -63,17 +66,17 @@ namespace content {
         int pass;
     };
 
-    bool isEmpty(coord c);
-    coord xy(int x, int y);
+    bool isEmpty(tile c);
+    tile xy(int x, int y);
     Biome biome(int x, int y);
     Wall wall(int x, int y);
 }
 namespace game {
     extern short player[2];
-    extern std::vector<coord> emptytiles;
+    extern std::vector<tile> emtiles;
 
     int grand(short x, short y, int k, int seed);
-    void make();
+    void make(std::string msg);
     void move();
 }
 
