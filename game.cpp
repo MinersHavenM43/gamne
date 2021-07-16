@@ -6,10 +6,10 @@ using namespace std;
 
 namespace game {
     short player[2] = {0,0};
-    vector<coord> emptytiles;
+    vector<tile> emtiles; // empty tiles
 
     int grand(short x, short y, int k, int seed = seed) {
-        srand(13*x + 29*y);
+        srand(211*x + 379*y + seed);
         return rand() % k;
     }
     string getChar(int x, int y) {
@@ -17,18 +17,28 @@ namespace game {
         if(!content::wall(x,y).id) return content::biome(x,y).glyph;
         return content::wall(x,y).glyph;
     }
-    void make() { // renders to console
-        int x = player[0] - prange; int y = player[1] + prange;
+    string repeat(string s, int r) {
+        string ss;
+        for(int i; i < r; i++) {
+            ss += s;
+        }
+        return ss;
+    }
+    void make(string msg) { // renders to console
+        int x = player[0] - PRANGE; int y = player[1] + PRANGE;
         string tekh;
-        while(y >= player[1] - prange) {
+        system("clear"); // clears the terminal
+        tekh += repeat(" ", PRANGE - content::biome(player[0], player[1]).name.size()/2) + content::biome(player[0], player[1]).name + "\n";
+        while(y >= player[1] - PRANGE) {
             tekh += getChar(x,y);
             x++;
-            if(x > player[0] + prange) {
+            if(x > player[0] + PRANGE) {
                 y--;
-                x = player[0] - prange;
+                x = player[0] - PRANGE;
                 tekh += "\n"; 
             }
         }
-        std::cout << tekh;
+        tekh += msg;
+        std::cout << tekh << endl;
     }
 }
