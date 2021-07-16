@@ -4,25 +4,27 @@
 using namespace std;
 
 namespace game {
+    bool noclip;
     int passable(int x,int y) {
         return content::wall(x, y).pass;
     }
     void noPassM(string s, int passtype) {
-        if(passtype == PASSTYPE::nopass) cout << "You cannot move through the " << s << "!" << endl;
-        if(passtype == PASSTYPE::chop) cout << "You chop the " << s << "." << endl;
+        if(passtype == PASSTYPE::nopass) make("You cannot move through the " + s + "!");
+        if(passtype == PASSTYPE::chop) make("You chop the " + s + ".");
     }
     void helpText() {
         std::cout <<
         "Commands: \n"
-        "help: shows a list of commands \n"
+        "H: shows a list of commands \n"
+        "y: renders the game without moving, before it was a test command used for showing the world when the player was stuck in spawn"
         "wasd: moves the character through the world (the @) \n"
-        "f3: shows coordinates \n"
-        "y: test command used for showing the world when the player was stuck in spawn"
+        "3: shows coordinates \n"
+        "N: noclip \n"
         ;
     }
     void move() {
         while(true) {
-            int k;
+            char k;
             std::cin >> k;
             int oldPlayer[2] = {player[0], player[1]};
             switch(k) {
@@ -38,30 +40,34 @@ namespace game {
                 case 'd':
                     player[0]++;
                 break;
-                case 'help':
+                case 'H': // help
                     helpText();
                 break;
                 case 'y':
-                    make();
+                    make("");
                 break;
-                case 'f3':
+                case '3': //'f3':
                     std::cout << player[0] << ", " << player[1] << endl;
+                break;
+                case 'N': // nocliṕ
+                    noclip = !noclip;
+                    std::cout << ( noclip ? "Noclip activated \n" : "Noclip deactivated \n" );
                 break;
             }
             content::Wall pwall = content::wall(player[0],player[1]);
-            if(pwall.pass == PASSTYPE::nopass) {
+            if(pwall.pass == PASSTYPE::nopass && !noclip) {
+                player[0] = oldPlayer[0]; player[1] = oldPlayer[1]; 
                 noPassM(pwall.name, PASSTYPE::nopass);
-                player[0] = oldPlayer[0]; player[1] = oldPlayer[1]; 
+                
             }
-            else if(pwall.pass == PASSTYPE::chop) {
-                noPassM(pwall.name, PASSTYPE::chop);
-                game::emptytiles.push_back({player[0],player[1]});
+            else if(pwall.pass == PASSTYPE::chop && !noclip) {
+                emtiles.push_back({player[0],player[1]});
                 player[0] = oldPlayer[0]; player[1] = oldPlayer[1]; 
+                noPassM(pwall.name, PASSTYPE::chop);
             }
             else {
                 if( k == 'w' || k == 'a' || k == 's' || k == 'd' ) {
-                    system("clear"); // clears the terminal
-                    make();
+                    make("");
                 }
             }
         }
