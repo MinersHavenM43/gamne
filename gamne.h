@@ -23,7 +23,10 @@
 #include <cmath>
 #include <vector>
 
-extern int seed; // seed
+#define pyr short
+// used for "syncing" coordinate types without having to replace 2763 instances
+
+extern int Seed; // seed
 // extern int prange; // player sight range
 
 #define PRANGE 10 // player sight range
@@ -36,22 +39,17 @@ extern int seed; // seed
 }; */
 
 struct tile { // coordinate (used for empty cells)
-    short x, y;
+    pyr x, y;
 };
 
 // no match for ‘operator==’ (operand types are ‘__gnu_cxx::__alloc_traits<std::allocator<tile> >::value_type {aka tile}’ and ‘tile’)
 bool operator == (const tile c1, const tile c2);
 
 // some values
-namespace PASSTYPE {
+namespace PASS {
     extern int nopass;
     extern int pass;
     extern int chop;
-}
-namespace TYPE {
-    extern int glyph;
-    extern int name;
-    extern int pass;
 }
 
 // namespaces
@@ -67,17 +65,23 @@ namespace content {
     };
 
     bool isEmpty(tile c);
-    tile xy(int x, int y);
-    Biome biome(int x, int y);
-    Wall wall(int x, int y);
+    Biome biome(pyr x, pyr y);
+    Wall wall(pyr x, pyr y);
 }
 namespace game {
-    extern short player[2];
+    extern pyr player[2];
     extern std::vector<tile> emtiles;
 
-    int grand(short x, short y, int k, int seed);
+    int grand(pyr x, pyr y, int k, int seed);
     void make(std::string msg);
     void move();
+}
+namespace Perlin {
+    double Perlin(double x, double y, int seed);
+    double PerlinOc(double x, double y, int oc, double sc, int seed, double ocs = 4);
+
+    double HeightMap(double x, double y);
+    double TempMap(double x, double y);
 }
 
 #endif
