@@ -20,7 +20,7 @@ cd gamne
 make
 ./gamne
 ```
-It is the same on Windows, if you are compiling with MinGW you'll need some libraries, which you can simply copy over from the MingW folder.
+It is the same on Windows, however if you are compiling with MinGW you'll need some libraries, which you can simply copy over from the MingW folder.
 
 The Windows version also has some tree generation errors for some reason, and does not clear the terminal because in Windows the clear command is "clc"
 
