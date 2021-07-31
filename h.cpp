@@ -3,7 +3,7 @@
 
 #include "h.h"
 
-int seed = 10; // seed
+int Seed = 10; // seed
 
 // no match for ‘operator==’ (operand types are ‘__gnu_cxx::__alloc_traits<std::allocator<tile> >::value_type {aka tile}’ and ‘tile’)
 bool operator == (const tile c1, const tile c2) {
@@ -12,13 +12,8 @@ bool operator == (const tile c1, const tile c2) {
     return false;
 }
 
-namespace PASSTYPE {
+namespace PASS {
     int nopass = 0;
     int pass = 1;
     int chop = 2;
-}
-namespace TYPE {
-    int glyph = 0;
-    int name = 1;
-    int pass = 2;
 }
