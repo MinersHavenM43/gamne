@@ -6,15 +6,15 @@ using namespace std;
 
 namespace game {
     short player[2] = {0,0};
-    vector<tile> emtiles; // empty tiles
+    vector<tile> emtiles = { {0,0} }; // empty tiles
 
-    int grand(short x, short y, int k, int seed = seed) {
+    int grand(pyr x, pyr y, int k, int seed) {
         srand(211*x + 379*y + seed);
         return rand() % k;
     }
-    string getChar(int x, int y) {
+    string getChar(pyr x, pyr y) {
         if(x == player[0] && y == player[1]) return "@";
-        if(!content::wall(x,y).id) return content::biome(x,y).glyph;
+        if(content::wall(x,y).glyph == "") return content::biome(x,y).glyph;
         return content::wall(x,y).glyph;
     }
     string repeat(string s, int r) {
@@ -25,7 +25,7 @@ namespace game {
         return ss;
     }
     void make(string msg) { // renders to console
-        int x = player[0] - PRANGE; int y = player[1] + PRANGE;
+        pyr x = player[0] - PRANGE; pyr y = player[1] + PRANGE;
         string tekh;
         system("clear"); // clears the terminal
         tekh += repeat(" ", PRANGE - content::biome(player[0], player[1]).name.size()/2) + content::biome(player[0], player[1]).name + "\n";
