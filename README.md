@@ -35,7 +35,7 @@ Then, you have to define where it spawns. Gamne does this using the heat and tem
 Creating walls is very similar to creating biomes: you have to define the walls (but with `WALL(glyph, name, variable name, pass index, id)`), with the additional parameter of the pass index.
 
 ## Creating a new data type
-To create a new datatype (for this example, and item), you have to go to `gamne.h` at line 65, and define a new `struct`, with your datatype and its parameters. For an item, you could have:
+To create a new datatype (for this example, and item), you have to go to `h.h` at line 65, and define a new `struct`, with your datatype and its parameters. For an item, you could have:
 ```cpp
 struct Item {
     int id;
