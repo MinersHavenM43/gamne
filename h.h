@@ -22,21 +22,25 @@
 #include <string>
 #include <cmath>
 #include <vector>
+#include <SDL2/SDL.h>
+
+extern int tilesize;
+extern int sightrange;
+extern int tick;
 
 #define pyr short
 // used for "syncing" coordinate types without having to replace 2763 instances
 
 extern int Seed; // seed
-// extern int prange; // player sight range
 
-#define PRANGE 10 // player sight range
+#define PIXEL tilesize /* tile size */
+#define PRANGE sightrange // player sight range
+#define TICK tick /* tile size */
+
 #define BORDER 32700 // world border
 
-/* struct tile { // will be used later, much later
-    short x, y;
-    content::Biome biome;
-    content::Wall wall;
-}; */
+#define VERSION "v1.3π"
+#define VERG "Gamne " VERSION
 
 struct tile { // coordinate (used for empty cells)
     pyr x, y;
@@ -45,23 +49,23 @@ struct tile { // coordinate (used for empty cells)
 // no match for ‘operator==’ (operand types are ‘__gnu_cxx::__alloc_traits<std::allocator<tile> >::value_type {aka tile}’ and ‘tile’)
 bool operator == (const tile c1, const tile c2);
 
-// some values
-namespace PASS {
-    extern int nopass;
-    extern int pass;
-    extern int chop;
-}
+// values used to determine whether or not you can walk through a wall
+enum PASS {
+    nopass, pass, chop, worldb
+};
 
 // namespaces
 namespace content {
     struct Biome {
         int id;
         std::string glyph, name;
+        int color;
     };
     struct Wall {
         int id;
         std::string glyph, name;
-        int pass;
+        PASS pass;
+        int color;
     };
 
     bool isEmpty(tile c);
@@ -73,8 +77,8 @@ namespace game {
     extern std::vector<tile> emtiles;
 
     int grand(pyr x, pyr y, int k, int seed);
-    void make(std::string msg);
-    void move();
+    void make(SDL_Renderer* renderer);
+    void Update();
 }
 namespace Perlin {
     double Perlin(double x, double y, int seed);
@@ -82,6 +86,16 @@ namespace Perlin {
 
     double HeightMap(double x, double y);
     double TempMap(double x, double y);
+}
+namespace SDL {
+    struct Color {
+        int
+        red,
+        green,
+        blue;
+    };
+    Color toColor(int col);
+    SDL_Rect pixel(int x, int y);
 }
 
 #endif
