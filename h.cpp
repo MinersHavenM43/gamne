@@ -11,9 +11,3 @@ bool operator == (const tile c1, const tile c2) {
         return true;
     return false;
 }
-
-namespace PASS {
-    int nopass = 0;
-    int pass = 1;
-    int chop = 2;
-}
