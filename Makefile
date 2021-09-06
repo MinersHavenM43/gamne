@@ -1,2 +1,2 @@
 make:
-	g++ -o gamne *.cpp
+	g++ -o gamne *.cpp -lSDL2
