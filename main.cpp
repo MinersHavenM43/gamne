@@ -7,10 +7,10 @@ using namespace std;
 // int a = 2; test variable
 int main() {
     std::cout <<
-    "Gamne v1.2 by MinersHaven\n"
+    VERG << " by MinersHavenM43\n"
     "Released under GNU GPL version 2, and thus does not come with any warranty. See COPYING for details"
     << endl;
     std::cout << "Press 'y' to start. Press 'H' for a list of commands" << endl;
-    game::move();
+    game::Update();
     return 0;
 }
