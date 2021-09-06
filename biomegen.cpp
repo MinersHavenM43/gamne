@@ -4,36 +4,39 @@
 #include "h.h"
 using namespace std;
 
-#define BIOME(glyph, name, varname, id) content::Biome varname = {id, glyph, name};
-#define WALL(glyph, name, varname, pass, id) content::Wall varname = {id, glyph, name, pass};
+#define BIOME(glyph, color, name, varname, id) content::Biome varname = {id, glyph, name, color};
+#define WALL(glyph, color, name, varname, passs, id) content::Wall varname = {id, glyph, name, passs, color};
 
 // 1.0
-BIOME(".", "Plains", biPlains, 0)
-BIOME(",", "Forest", biForest, 1)
-BIOME("^", "Mountains", biMountains, 2)
+BIOME(".", 0x5AD05A, "Plains", biPlains, 0)
+BIOME(",", 0x209020, "Forest", biForest, 1)
+BIOME("^", 0x666666, "Mountains", biMountains, 2)
 
-WALL("", "", waNone, PASS::pass, 0)
-WALL("+", "tree", waTree, PASS::chop, 1)
-WALL("Λ", "mountain", waMountain, PASS::nopass, 2)
+WALL("" , -      1, "", waNone, pass, 0)
+WALL("+", 0x502A20, "tree", waTree, chop, 1)
+WALL("Λ", 0x333333, "mountain", waMountain, nopass, 2)
 
 // 1.1
-BIOME("_", "Shore", biShore, 3)
-BIOME("*", "Ocean", biOcean, 4)
+BIOME("_", 0xFFFFB0, "Shore", biShore, 3)
+BIOME("*", 0x1A1AA0, "Ocean", biOcean, 4)
 
-WALL("+", "pine tree", waPineTree, PASS::chop, 3)
-WALL("", "ocean", waOcean, PASS::nopass, 4)
-WALL("/", "world border", waWB, PASS::nopass, 5)
+WALL("+", 0x4F332B, "pine tree", waPineTree, chop, 3)
+WALL("" , -      1, "ocean", waOcean, nopass, 4)
+WALL("/", 0x200020, "world border", waWB, worldb, 5)
 
 // 1.2
-BIOME("¯", "Desert", biDesert, 5)
-BIOME("'", "Taiga", biTaiga, 6)
-BIOME("\"", "Tundra", biTundra, 7)
-BIOME("~", "Jungle", biJungle, 8)
-BIOME("°", "Cold Ocean", biCOcean, 9)
+BIOME("-", 0xFFD08A, "Desert", biDesert, 5)
+BIOME("'", 0x305C30, "Taiga", biTaiga, 6)
+BIOME("\"", 0xF0F0F0, "Tundra", biTundra, 7)
+BIOME("~", 0x15AA15, "Jungle", biJungle, 8)
+BIOME("°", 0x3A3AA1, "Cold Ocean", biCOcean, 9)
 
-WALL("ψ", "Cactus", waCactus, PASS::chop, 6)
-WALL("O", "Ice Patch", waIce, PASS::pass, 7)
-WALL("+", "Palm Tree", waPalm, PASS::chop, 8)
+WALL("ψ", 0x209020, "cactus", waCactus, chop, 6)
+WALL("O", 0x7777D4, "Ice Patch", waIce, pass, 7)
+WALL("+", 0x503A20, "palm tree", waPalm, chop, 8)
+
+// 1.3
+BIOME("¨", 0x204020, "Swamp", biSwamp, 10)
 
 namespace content {
     /* int test = 3;
@@ -58,15 +61,15 @@ namespace content {
         using namespace Perlin;
         double HEIGHT = HeightMap(x,y);
         double TEMP = TempMap(x,y);
-        
         if(HEIGHT < 0.45) { // Oceanic biome optimization
-            if(HEIGHT < 0.4 && HEIGHT > 0.1 && TEMP < 0.3) {
+            if(HEIGHT < 0.4 && HEIGHT > 0.1 && TEMP < 0.1) {
                 return biCOcean;
             }
             if(HEIGHT < 0.4) {
                 return biOcean;
             }
             if(HEIGHT < 0.45) {
+                if(TEMP > 0.7 && TEMP < 0.75) return biSwamp;
                 return biShore;
             }
         }
@@ -74,20 +77,22 @@ namespace content {
         if(HEIGHT > 0.85) {
             return biMountains;
         }
-        if(TEMP < 0.1) {
-            return biTundra;
-        }
         if(TEMP < 0.3) {
+            if(TEMP < 0.1) {
+                return biTundra;
+            }
             return biTaiga;
         } 
-        if(TEMP > 0.85) {
-            return biJungle;
-        }
         if(TEMP > 0.75) {
+            if(TEMP > 0.9) {
+                return biJungle;
+            }
             return biDesert;
         }
         if(TEMP > 0.5) {
+            if(HEIGHT < 0.5 && TEMP > 0.7) return biSwamp;
             return biForest;
+            
         }
         return biPlains; // keep this last
     }
@@ -115,8 +120,8 @@ namespace content {
                     return waMountain;
                 }
             break;
-            case 3: // (shore) doesn't need to exist  edit: nevermind
-                if(GRAND(100) < 4) {
+            case 3:
+                if(GRAND(100) < 1) {
                     return waPalm;
                 }
             break;
@@ -134,7 +139,7 @@ namespace content {
                 }
             break;
             case 7: // tundra
-                if(GRAND(100) < 4) {
+                if(GRAND(100) < 2) {
                     return waPineTree;
                 }
             break;
@@ -148,6 +153,14 @@ namespace content {
                     return waIce;
                 }
                 return waOcean;
+            break;
+            case 10: // swamp
+                if(Perlin::PerlinOc(x, y, 2, 5, Seed) < 0.5) {
+                    return waOcean;
+                }
+                if(GRAND(100) < 8) {
+                    return waTree;
+                }
             break;
         }
         return waNone; // keep this at last
